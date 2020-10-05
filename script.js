@@ -1,52 +1,53 @@
-// module aliases
 var Engine = Matter.Engine,
-    Render = Matter.Render,
     World = Matter.World,
     Bodies = Matter.Bodies;
 
-// create an engine
-var engine = Engine.create();
+var engine;
+var world;
+var cubes = [];
+var sol;
 
-// create a renderer
-var render = Render.create({
-    element: document.body,
-    engine: engine
-});
+//Setup Moteur Physics + création des objets 
+function setup() {
+    createCanvas(400, 400);
+    engine = Engine.create();
+    world = engine.world;
+    Engine.run(engine);
 
-var box = Bodies.rectangle(100,200,80,80);
+    var options = {
+        isStatic: true
+    }
 
-console.log(render.options);
 
-// create two boxes and a ground
-var boxA = Bodies.rectangle(400, 200, 80, 80);
-var boxB = Bodies.rectangle(450, 50, 80, 80);
-var boxC = Bodies.rectangle(300, 50, 80, 80, {isStatic: true});
-var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-
-// add all of the bodies to the world
-World.add(engine.world, [boxA, boxB, boxC, ground]);
-
-// run the engine
-Engine.run(engine);
-
-// run the renderer
-Render.run(render);
-
-var box = () => {
-    return Bodies.rectangle(Math.floor(Math.random()*render.options.width+1), 200, 80, 80);
+    sol = Bodies.rectangle(200, height, width, 25, options)
+    World.add(world, sol);
 }
 
-document.addEventListener('keydown', function(event) {
-    if(event.keyCode == 37) {
-        World.add(engine.world, [box()]);
-    }
-    else if(event.keyCode == 39) {
-        Render.stop(render);
-    }
-    else if (event.keyCode == 13) {
-        Render.run(render);
-    }
-});
 
+/*****************/
+/*Moteur de Rendu*/
+/*****************/
+function draw() {
+    background(51);
 
+    cubes.forEach(cube => {
+        cube.show();
+    });
+    fill(177);
+    rectMode(CENTER);
+    noStroke();
+    rect(sol.position.x, sol.position.y, width, 25)
 
+}
+
+/***************/
+/*****Event*****/
+/***************/
+
+// function mouseDragged() {
+//     boxes.push(new Box(mouseX, mouseY, 20, 20));
+// }
+
+function mouseClicked() {
+    cubes.push(new Cube(mouseX, mouseY, 20, 20));
+}
