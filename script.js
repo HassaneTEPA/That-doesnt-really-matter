@@ -9,7 +9,9 @@ var sol;
 
 //Setup Moteur Physics + création des objets 
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(1920, 1080);
+
+
     engine = Engine.create();
     world = engine.world;
     Engine.run(engine);
@@ -18,8 +20,7 @@ function setup() {
         isStatic: true
     }
 
-
-    sol = Bodies.rectangle(200, height, width, 25, options)
+    sol = Bodies.rectangle(window.innerWidth / 2, window.innerHeight, window.innerWidth, 25, options)
     World.add(world, sol);
 }
 
@@ -40,14 +41,24 @@ function draw() {
 
 }
 
+
+
 /***************/
 /*****Event*****/
 /***************/
 
-// function mouseDragged() {
-//     boxes.push(new Box(mouseX, mouseY, 20, 20));
-// }
-
-function mouseClicked() {
+function mouseDragged() {
     cubes.push(new Cube(mouseX, mouseY, 20, 20));
 }
+
+
+function mouseClicked() {
+    // cubes.push(new Cube(mouseX, mouseY, 80, 80));
+    i = 0;
+    while (i < 100) {
+        cubes.push(new Cube(mouseX, mouseY, random(10, 50), random(10, 50)));
+        i++
+    }
+
+}
+
