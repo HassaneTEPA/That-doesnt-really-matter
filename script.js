@@ -1,9 +1,6 @@
-// Modules alias
 var Engine = Matter.Engine,
-    Render = Matter.Render,
     World = Matter.World,
     Bodies = Matter.Bodies;
-
 
 var engine;
 var world;
