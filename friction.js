@@ -13,6 +13,8 @@ var render = Render.create({
     engine: engine
 });
 
+var box = Bodies.rectangle(100,200,80,80);
+
 console.log(render.options);
 
 // create two boxes and a ground
@@ -30,8 +32,6 @@ Engine.run(engine);
 // run the renderer
 Render.run(render);
 
-var box = Bodies.rectangle(100,200,80,80);
-
 var box = () => {
     return Bodies.rectangle(Math.floor(Math.random()*render.options.width+1), 200, 80, 80);
 }
@@ -41,6 +41,12 @@ document.addEventListener('keydown', function(event) {
         World.add(engine.world, [box()]);
     }
     else if(event.keyCode == 39) {
-        alert('Right was pressed');
+        Render.stop(render);
+    }
+    else if (event.keyCode == 13) {
+        Render.run(render);
     }
 });
+
+
+
