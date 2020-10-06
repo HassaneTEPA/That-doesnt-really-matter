@@ -24,6 +24,10 @@ var canMovep1 = true;
 var canMovep2 = true;
 var delay = 200;
 var bordures = [];
+var velocityX = 8;
+var velocityY = 10;
+var p1Velocity;
+var p2Velocity;
 
 
     //Setup Moteur Physics + création des objets 
@@ -65,7 +69,6 @@ var bordures = [];
 
         Events.on(engine, 'collisionStart', function (event) { // event de collision
 
-
             let collisions = Detector.collisions(event.source.broadphase.pairsList, engine);  // detection collision des joueurs
 
             var i, pair,
@@ -75,7 +78,16 @@ var bordures = [];
 
                 if ((pair.bodyA.id != 2 && pair.bodyA.id != 3 && pair.bodyA.id != 4)) {
                     if ((pair.bodyA.id === 5 || pair.bodyB.id === 6)) {
-                        console.log(pair.bodyA + '<=>' + pair.bodyB)
+                        // Collision entre deux cubes
+                        p1Velocity = pair.bodyA.velocity;
+                        p2Velocity = pair.bodyB.velocity;
+
+                        if (Vector.magnitude(p1Velocity) > Vector.magnitude(p2Velocity)) {
+                            console.log("player1 wins");
+                        } else {
+                            console.log("player2 wins");
+                        }
+
                         continue;
                     }
                 }
@@ -145,16 +157,16 @@ var bordures = [];
             case 1:
                 switch (key) {
                     case "up":
-                        Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x, cubes[0].body.velocity.y - 10));
+                        Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x, cubes[0].body.velocity.y - velocityY));
                         break;
                     case "right":
-                        Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x + 10, cubes[0].body.velocity.y + 0));
+                        Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x + velocityX, cubes[0].body.velocity.y + 0));
                         break;
                     case "left":
-                        Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x - 10, cubes[0].body.velocity.y + 0));
+                        Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x - velocityX, cubes[0].body.velocity.y + 0));
                         break;
                     case "down":
-                        Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x, cubes[0].body.velocity.y + 10));
+                        Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x, cubes[0].body.velocity.y + velocityY));
                         break;
                 }
                 canMovep1 = false;
@@ -167,16 +179,16 @@ var bordures = [];
             case 2:
                 switch (key) {
                     case "up":
-                        Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x, cubes[1].body.velocity.y - 10));
+                        Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x, cubes[1].body.velocity.y - velocityY));
                         break;
                     case "right":
-                        Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x + 10, cubes[0].body.velocity.y + 0));
+                        Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x + velocityX, cubes[0].body.velocity.y + 0));
                         break;
                     case "left":
-                        Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x - 10, cubes[1].body.velocity.y + 0));
+                        Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x - velocityX, cubes[1].body.velocity.y + 0));
                         break;
                     case "down":
-                        Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x, cubes[1].body.velocity.y + 10));
+                        Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x, cubes[1].body.velocity.y + velocityY));
                         break;
                 }
                 canMovep2 = false;
@@ -193,13 +205,10 @@ var bordures = [];
     function keyPressed() {
 
         if (keyCode === 32) {
-            console.log("go")
             if (cubes.length < 2) {
-                console.log("spawn1")
                 let joueur1 = new Cube(2, 100, 30, 30);
                 cubes.push(joueur1);
 
-                console.log("spawn2")
                 let joueur2 = new Cube(width, 100, 30, 30);
                 cubes.push(joueur2);
             }
