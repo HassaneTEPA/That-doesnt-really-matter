@@ -1,36 +1,41 @@
-
-
 // Modules alias
 var Engine = Matter.Engine,
     World = Matter.World,
     Bodies = Matter.Bodies,
     Body = Matter.Body,
     Vector = Matter.Vector,
-    Mouse = Matter.Mouse;
+    Mouse = Matter.Mouse,
+    Events = Matter.Events,
+    Pair = Matter.Pair,
+    Detector = Matter.Detector;
 
 
 var engine;
 var world;
 var cubes = [];
 var sol;
+
+
+var Pairs = [];
+
+
+
 var plafond;
+var joueur1;
 var bordDroit;
 var bordGauche;
-var plateforms = [];
+var bordures = [];
 var canMove = true;
 var delay = 200;
 
 //Setup Moteur Physics + création des objets 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
-
-
-
-
     engine = Engine.create();
-
     world = engine.world;
     Engine.run(engine);
+
+
 
     var options = {
         isStatic: true
@@ -38,40 +43,57 @@ function setup() {
 
     plafond = Bodies.rectangle(0, 0, width * 2, 70, options);
     sol = Bodies.rectangle(width / 2, height, width, 25, options);
-
     bordDroit = Bodies.rectangle(0, 0, 25, height * 2, options);
+    bordGauche = Bodies.rectangle(width, 0, 25, height * 2, options);
 
-    bordGauche = Bodies.rectangle(window.innerWidth, 0, 25, height * 2, options);
+    bordures.push(plafond, sol, bordDroit, bordGauche);
+
+    //bordures Physique
+    bordures.forEach(bord => {
+        World.add(world, bord);
+    });
 
 
-    World.add(world, sol);
-    World.add(world, plafond);
-    World.add(world, bordDroit);
-    World.add(world, bordGauche);
 
-
-
-    if (plateforms.length != 0) {
-        plateforms.forEach(plateform => {
-            World.add(world, plateform);
-        });
-    }
 
 }
+
 
 
 /*****************/
 /*Moteur de Rendu*/
 /*****************/
 function draw() {
+
+    Engine.update(engine);
+
+    Events.on(engine, 'collisionStart', function (event) { // event de collision
+
+        let joueur1event = event.source.broadphase.pairsList[1][0].id;                      // recup les joueurs
+        let joueur2event = event.source.broadphase.pairsList[1][1].id;
+
+        if (joueur1event == 6 && joueur2event == 5 || joueur1event == 5 && joueur2event == 6) {
+            if (event.source.broadphase.pairsList[1][1].speed > event.source.broadphase.pairsList[1][0].speed) {
+                let collisions = Detector.collisions(event.source.broadphase.pairsList, engine);  // detection collision des joueurs
+
+                // console.log(collisions);
+
+                collisions.forEach(collision => {
+                    if (collision.length < 2) {
+                        console.log(collision);
+                    };
+                });
+
+            }
+        }
+
+    });
+
     background(51);
+
 
     cubes.forEach(cube => {
         cube.show();
-    });
-
-    plateforms.forEach(plateform => {
-        plateform.show();
     });
 
     fill(177);
@@ -155,7 +177,7 @@ function draw() {
 
 
 function keyPressed() {
-    console.log(keyCode);
+    // console.log(keyCode);
     if (keyCode === 32) {
         // for (let y = 100; y < 150; y = y + 10) {
         //     for (let x = 100; x < 150; x = x + 10) {
@@ -165,21 +187,28 @@ function keyPressed() {
         // }
 
 
-        let joueur1 = new Cube(2, 100, 30, 30);
-
-        cubes.push(joueur1);
-
-
-        let joueur2 = new Cube(width, 100, 30, 30);
+        if (cubes.length < 2) {
+            let joueur1 = new Cube(2, 100, 30, 30);
+            cubes.push(joueur1);
 
 
-        cubes.push(joueur2);
+            let joueur2 = new Cube(width, 100, 30, 30);
+            cubes.push(joueur2);
+
+
+
+
+        }
+
+
+
 
 
 
     }
 
 }
+
 
 /***************/
 /*****Event*****/
