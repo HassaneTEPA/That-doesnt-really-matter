@@ -17,7 +17,10 @@ var plafond;
 var bordDroit;
 var bordGauche;
 var plateforms = [];
-var canMove = true;
+var canMovep1 = true;
+var canMovep2 = true;
+var p1Veclocity = Vector.create(0,0);
+var p2Veclocity = Vector.create(0,0);
 var delay = 200;
 
 //Setup Moteur Physics + création des objets 
@@ -85,77 +88,91 @@ function draw() {
 
 
     // Commandes joueur1
-    if (keyIsDown(90) && canMove) {
-        canMove = false;
-        Body.setVelocity(cubes[0].body, Vector.create(0,-10));
-        if (!canMove) {
-            setTimeout(function() {
-                canMove = true;
-            },delay);
-        }
+    if (keyIsDown(90) && canMovep1) {
+        movement(1,"up");
     }
 
-    if (keyIsDown(68) && canMove) {
-        canMove = false;
-        Body.setVelocity(cubes[0].body, Vector.create(10,0));
-        if (!canMove) {
-            setTimeout(function() {
-                canMove = true;
-            },delay);
-        }
+    if (keyIsDown(68) && canMovep1) {
+        movement(1,"right");
     }
 
-    if (keyIsDown(81) && canMove) {
-        canMove = false;
-        Body.setVelocity(cubes[0].body, Vector.create(-10,0));
-        if (!canMove) {
-            setTimeout(function() {
-                canMove = true;
-            },delay);
-        }
+    if (keyIsDown(81) && canMovep1) {
+        movement(1,"left");
+    }
+
+    if (keyIsDown(83) && canMovep1) {
+        movement(1,"down");
     }
 
     // Commandes joueur2
-    if (keyIsDown(UP_ARROW) && canMove) {
-        canMove = false;
-        Body.setVelocity(cubes[1].body, Vector.create(0,-10));
-        if (!canMove) {
-            setTimeout(function() {
-                canMove = true;
-            },delay);
-        }
+    if (keyIsDown(UP_ARROW) && canMovep2) {
+        movement(2,"up");
     }
 
-    if (keyIsDown(RIGHT_ARROW) && canMove) {
-        canMove = false;
-        Body.setVelocity(cubes[1].body, Vector.create(10,0));
-        if (!canMove) {
-            setTimeout(function() {
-                canMove = true;
-            },delay);
-        }
+    if (keyIsDown(RIGHT_ARROW) && canMovep2) {
+        movement(2,"right");
     }
 
-    if (keyIsDown(LEFT_ARROW) && canMove) {
-        canMove = false;
-        Body.setVelocity(cubes[1].body, Vector.create(-10,0));
-        if (!canMove) {
-            setTimeout(function() {
-                canMove = true;
-            },delay);
-        }
+    if (keyIsDown(LEFT_ARROW) && canMovep2) {
+        movement(2,"left");
     }
 
-
-
-
+    if (keyIsDown(DOWN_ARROW) && canMovep2) {
+        movement(2,"down");
+    }
 }
 
 
-
+function movement(player,key) {
+    // Bouger la fonction mouvement
+    switch (player) {
+        case 1 :
+            switch (key) {
+                case "up" :
+                    Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x,cubes[0].body.velocity.y - 10));
+                break;
+                case "right" :
+                    Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x + 10,cubes[0].body.velocity.y + 0));
+                break;
+                case "left" :
+                    Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x - 10,cubes[0].body.velocity.y + 0));
+                break;
+                case "down" :
+                    Body.setVelocity(cubes[0].body, Vector.create(cubes[0].body.velocity.x,cubes[0].body.velocity.y + 10));
+                break;
+            }
+            canMovep1 = false;
+            if (!canMovep1) {
+                setTimeout(function() {
+                    canMovep1 = true;
+                },delay);
+            }
+        break;
+        case 2 :
+            switch (key) {
+                case "up" :
+                    Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x,cubes[1].body.velocity.y - 10));
+                break;
+                case "right" :
+                    Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x + 10,cubes[0].body.velocity.y + 0));
+                break;
+                case "left" :
+                    Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x - 10,cubes[1].body.velocity.y + 0));
+                break;
+                case "down" :
+                    Body.setVelocity(cubes[1].body, Vector.create(cubes[1].body.velocity.x,cubes[1].body.velocity.y + 10));
+                break;
+            }
+            canMovep2 = false;
+            if (!canMovep2) {
+                setTimeout(function() {
+                    canMovep2 = true;
+                },delay);
+            }
+    } 
+}
 
 function keyPressed() {
-    console.log(keyCode);
     if (keyCode === 32) {
         // for (let y = 100; y < 150; y = y + 10) {
         //     for (let x = 100; x < 150; x = x + 10) {
