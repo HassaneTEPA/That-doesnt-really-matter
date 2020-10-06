@@ -22,22 +22,9 @@ var bordGauche;
 var plateforms = [];
 var canMovep1 = true;
 var canMovep2 = true;
-var p1Veclocity = Vector.create(0, 0);
-var p2Veclocity = Vector.create(0, 0);
 var delay = 200;
+var bordures = [];
 
-//Setup Moteur Physics + création des objets 
-function setup() {
-    createCanvas(window.innerWidth, window.innerHeight);
-
-    var Pairs = [];
-    var plafond;
-    var joueur1;
-    var bordDroit;
-    var bordGauche;
-    var bordures = [];
-    var canMove = true;
-    var delay = 200;
 
     //Setup Moteur Physics + création des objets 
     function setup() {
@@ -58,9 +45,6 @@ function setup() {
         bordDroit = Bodies.rectangle(0, 0, 25, height * 2, options);
         bordGauche = Bodies.rectangle(window.innerWidth, 0, 25, height * 2, options);
 
-
-        bordDroit = Bodies.rectangle(0, 0, 25, height * 2, options);
-        bordGauche = Bodies.rectangle(width, 0, 25, height * 2, options);
         bordures.push(plafond, sol, bordDroit, bordGauche);
 
         //bordures Physique
@@ -101,16 +85,13 @@ function setup() {
 
         });
 
-
-
-
+        
+        background(51);
 
         cubes.forEach(cube => {
             cube.show();
         });
-
-
-        background(51);
+        
         fill(177);
         rectMode(CENTER);
         noStroke();
@@ -212,17 +193,15 @@ function setup() {
     function keyPressed() {
 
         if (keyCode === 32) {
+            console.log("go")
             if (cubes.length < 2) {
+                console.log("spawn1")
                 let joueur1 = new Cube(2, 100, 30, 30);
                 cubes.push(joueur1);
 
-
+                console.log("spawn2")
                 let joueur2 = new Cube(width, 100, 30, 30);
                 cubes.push(joueur2);
             }
-
         }
-
     }
-
-}
