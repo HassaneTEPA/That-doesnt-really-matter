@@ -1,8 +1,9 @@
-function Cube(x, y, width, height) {
+function Cube(x, y, width, height, isStatic) {
 
     var options = {
         friction: 0.6,
-        restitution: 0.3
+        restitution: 0.3,
+        isStatic: isStatic ? isStatic : false
     }
 
     this.body = Bodies.rectangle(x, y, width, height, options);
@@ -24,8 +25,8 @@ function Cube(x, y, width, height) {
         rectMode(CENTER); //permet de placer le point de physique au centre de l'objet
 
         strokeWeight(1);
-        stroke(255);
-        fill(127);
+        stroke(220);
+        fill(220);
 
 
         rect(0, 0, this.width, this.height);
