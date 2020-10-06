@@ -52,10 +52,6 @@ function setup() {
     bordures.forEach(bord => {
         World.add(world, bord);
     });
-
-
-
-
 }
 
 
@@ -67,27 +63,38 @@ function draw() {
 
     Engine.update(engine);
 
+
     Events.on(engine, 'collisionStart', function (event) { // event de collision
 
-        let joueur1event = event.source.broadphase.pairsList[1][0].id;                      // recup les joueurs
-        let joueur2event = event.source.broadphase.pairsList[1][1].id;
 
-        if (joueur1event == 6 && joueur2event == 5 || joueur1event == 5 && joueur2event == 6) {
-            if (event.source.broadphase.pairsList[1][1].speed > event.source.broadphase.pairsList[1][0].speed) {
-                let collisions = Detector.collisions(event.source.broadphase.pairsList, engine);  // detection collision des joueurs
+        let collisions = Detector.collisions(event.source.broadphase.pairsList, engine);  // detection collision des joueurs
 
-                // console.log(collisions);
+        // console.log(collisions); 
 
-                collisions.forEach(collision => {
-                    if (collision.length < 2) {
-                        console.log(collision);
-                    };
-                });
+        // console.log(collisions);
+        var i, pair,
+            length = event.pairs.length;
+        for (i = 0; i < length; i++) {
+            pair = event.pairs[i];
 
+            if ((pair.bodyA.id != 2 && pair.bodyA.id != 3 && pair.bodyA.id != 4)) {
+                if ((pair.bodyA.id === 5 || pair.bodyB.id === 6)) {
+                    console.log(pair.bodyA.id + '<=>' + pair.bodyB.id)
+                    continue;
+                }
             }
         }
 
+
+        // collisions.forEach(collision => {
+        //     if (collision.length <= 2) {
+        //         console.log(collision);
+        //     };
+        // });
+
     });
+
+
 
     background(51);
 

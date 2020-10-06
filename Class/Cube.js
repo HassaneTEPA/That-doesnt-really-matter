@@ -1,8 +1,8 @@
 function Cube(x, y, width, height, static = false) {
 
     var options = {
-        friction: 1,
-        restitution: 1,
+        friction: 0,
+        restitution: 0,
         isStatic: static,
     }
 
