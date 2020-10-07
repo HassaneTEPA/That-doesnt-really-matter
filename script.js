@@ -76,7 +76,7 @@ var p2Velocity;
             for (i = 0; i < length; i++) {
                 pair = event.pairs[i];
 
-                if ((pair.bodyA.id != 2 && pair.bodyA.id != 3 && pair.bodyA.id != 4)) {
+                if ((pair.bodyA.id != 2 && pair.bodyA.id != 3 && pair.bodyA.id != 4 && pair.bodyA.id != 1)) {
                     if ((pair.bodyA.id === 5 || pair.bodyB.id === 6)) {
                         // Collision entre deux cubes
                         p1Velocity = pair.bodyA.velocity;
@@ -100,9 +100,11 @@ var p2Velocity;
         
         background(51);
 
-        cubes.forEach(cube => {
-            cube.show();
-        });
+        if (cubes[0] != null || cubes[1] != null) {
+            cubes.forEach(cube => {
+                cube.show();
+            });
+        }
         
         fill(177);
         rectMode(CENTER);
