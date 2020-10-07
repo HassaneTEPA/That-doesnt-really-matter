@@ -19,20 +19,18 @@ function Cube(x, y, width, height, static = false) {
         var angle = this.body.angle;
 
         push();
+
         translate(pos.x, pos.y);
 
         rotate(angle);
 
-
         rectMode(CENTER); //permet de placer le point de physique au centre de l'objet
 
         strokeWeight(1);
-        stroke(220);
-        fill(220);
-
+        stroke(100);
+        fill(100);
 
         rect(0, 0, this.width, this.height);
-
 
         pop();
     }
