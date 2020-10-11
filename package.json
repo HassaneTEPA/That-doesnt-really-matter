@@ -1,5 +1,9 @@
 {
+<<<<<<< Updated upstream
   "name": "matterjs",
+=======
+  "name": "matter_game",
+>>>>>>> Stashed changes
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,8 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< Updated upstream
     "jquery": "^3.5.1",
     "matter-js": "^0.14.2",
     "p5": "^1.1.9"
+=======
+    "matter-js": "^0.14.2",
+    "particlesjs": "^2.2.3"
+>>>>>>> Stashed changes
   }
 }
